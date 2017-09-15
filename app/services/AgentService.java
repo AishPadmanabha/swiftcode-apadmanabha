@@ -24,8 +24,8 @@ public class AgentService {
                     .get();
             JsonNode response = responsePromise.thenApply(WSResponse::asJson).toCompletableFuture().get();
             agentResponse.keyword = response.get("result").get("parameters").get("keyword").asText();
-        } catch() {
-
+        } catch(Exception ex) {
+            ex.printStackTrace();
         }
         return agentResponse;
     }
