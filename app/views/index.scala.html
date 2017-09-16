@@ -7,10 +7,23 @@
 <body ng-app = "chatApp" ng-controller = "chatController" layout = "row" layout-align = "center stretch">
 	<md-card flex="none" layout="column"> 
 		<md-content flex="90" id="message-pane" style="width: 800px;     
-		background: url(https://media.giphy.com/media/xTiTnwj1LUAw0RAfiU/giphy.gif);
-		
+		background: url(https://camo.githubusercontent.com/4367424ba803843525b9794047ad3d876117abdf/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f3835383337312f313539323131322f66353437636661362d353262352d313165332d396331382d3933653039626434313937632e706e67);
+		background-repeat:no-repeat;	
 		background-size:cover;
 		background-position: right bottom">   
+		
+		<div ng-repeat = "message in messages" layout = "column"
+		layout-align="{{message.sender=='BOT' ? 'start start' : 'start end'}}">
+		<md-card style = "max-width: 75% ; border-radius: 10px; padding: 10px; font-size: 14px; " 
+		ng-style = "message.sender == 'BOT' ?
+		{'background-color' : '#aaebf7'} :
+		{'background-color' : '#ffffff'}">
+			<span>{{message.text}} </span>
+			<!--Avoiding hacks-->
+			<span ng-bind-html="trust(message.feedResponse.description)">{{message.feedResponse.description}}</span>
+			<span layout-align="end end" style="margin-top: 4px; float: right; color: #666666; font-size: 10px;"> {{message.time}} </span>
+		</md-card>
+		</div>
 		
 		</md-content> 
 		<md-card flex="10" style="margin: 0px" layout="row" layout-align="space-between center" class="md-whiteframe-8dp"> 
@@ -36,4 +49,3 @@
 </body> 
 </html>
 
-<!--background-repeat:no-repeat;-->

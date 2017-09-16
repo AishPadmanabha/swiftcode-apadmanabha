@@ -1,5 +1,6 @@
 package controllers;
 
+import actors.MessageActor;
 import play.mvc.*;
 
 import views.html.*;
@@ -20,5 +21,9 @@ public class HomeController extends Controller {
         return ok(views.html.index.render());
     }
 
+
+    public LegacyWebSocket<String> chatSocket() {
+        return WebSocket.withActor(MessageActor::props);
+    }
 }
 //views.html.index.render()
