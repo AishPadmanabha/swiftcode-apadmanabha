@@ -1,32 +1,21 @@
 var app = angular.module('chatApp', ['ngMaterial']);
 
-app.controller('chatController', function ($scope) {
-	$scope.messages = [
-	{
-		sender : "BOT",
-		text : "Hi",
-		time : "1:12PM"
-	},
-	{
-		sender : "USER",
-		text : "My name is Sappo!",
-		time : "1:13PM"
-	},
-	{
-		sender : "BOT",
-		text : "And I work in a button factory!",
-		time : "1:14PM"
-	},
-	{
-		sender : "USER",
-		text : "Kbye.",	
-		time : "1:15PM"
-	}];
+app.controller('chatController', function ($scope, $sce) {
+	$scope.messages = [];
 
-var  exampleSocket =  new  WebSocket("ws://localhost:9000/chatSocket");
-exampleSocket.onmessage  =   function  (event) {
+	var  exampleSocket =  new  WebSocket("ws://localhost:9000/chatSocket");
+	exampleSocket.onmessage  =   function  (event) {
        var jsonData = JSON.parse(event.data);
-       console.log(jsonData);
+       jsonData.time = new Date().toLocaleTimeString();        
+       $scope.messages.push(jsonData);        
+       $scope.$apply();        
+       console.log(jsonData);        
    };
+
+   $scope.sendMessage = function () {            
+   	exampleSocket.send($scope.userMessage);        
+   	$scope.userMessage = ""; 
+   };
+   $scope.trust = $sce.trustAsHtml;
 });
 
